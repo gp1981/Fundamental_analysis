@@ -22,16 +22,10 @@ This repository contains R code to perform fundamental analysis for value invest
     cd fundamental_analysis
     ```
 
-2. Install the required packages:
-    ```R
-    install.packages(c("dplyr", "tidyverse", "fmpcloudr", "ggplot2", "shiny"))
-    ```
+2. Run the script on run_analysis.R:
+    
 
-3. Set up your API Token:
-    ```R
-    library(fmpcloudr)
-    fmpcloudr::fmpc_set_token('your_api_token')
-    ```
+3. Set up your API Token on : https://www.financialmodelingprep.com
 
 ## Usage
 
@@ -46,10 +40,8 @@ This repository contains R code to perform fundamental analysis for value invest
 ## Project Structure
 
 - `data/`: Contains raw and processed data files.
-- `R/`: Contains R scripts for data retrieval, ratio analysis, and visualization.
-- `scripts/`: Contains the main script to run the analysis.
+- `scripts/`: Contains the main script to run the analysis (run_analysis.R) and for data retrieval, ratio analysis, an.
 - `reports/`: Contains example reports and R Markdown files.
-- `docs/`: Contains project documentation.
 - `tests/`: Contains test scripts for the functions.
 
 ## Contributing
