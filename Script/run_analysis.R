@@ -1,6 +1,5 @@
 # Source data and libraries -----------------------------------------------
-source('Functions/setup.R')
-
+source('script/setup.R')
 
 # Retrieve data -----------------------------------------------------------
 
@@ -14,10 +13,13 @@ indexes = c('^SP500TR','JPYUSD','BTCUSD','GCUSD')
 financial_data <- get_financial_data(company_ticker, competitors_tickers, indexes, historical_dates)
 
 # Analysis ------------------------------------------------------------
-ratio_analysis <- ratio_analysis_chart(financial_data)
+ratio_analysis_plot <- ratio_analysis_chart(financial_data)
 
-# To do:
-#   1) Working capital ratios
-#   2) NOPLAT, and earnings
-#   3) quarto web posting
-#   4) median from industry for benchmark
+# Charts
+ratio_analysis_plot$current_assets_plot
+
+ratio_analysis_plot$cash_conversion_plot
+
+ratio_analysis_plot$debt_ratios_plot
+
+ratio_analysis_plot$debt_coverage_plot

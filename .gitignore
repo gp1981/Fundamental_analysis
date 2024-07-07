@@ -4,6 +4,8 @@
 # Session Data files
 .RData
 .RDataTmp
+.DS_Store
+*.Rproj
 # User-specific files
 .Ruserdata
 # Example code in package build process
@@ -33,4 +35,5 @@ docs/
 po/*~
 # RStudio Connect folder
 rsconnect/
-*.Rproj
+
+.DS_Store

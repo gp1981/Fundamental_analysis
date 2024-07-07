@@ -40,6 +40,6 @@ historical_dates <- data.frame(
 )
 
 # Files to source ----
-source('Functions/data_retrieval.R')
-source('Functions/ratio_analysis.R')
-source('Functions//visualization.R')
+source('script/data_retrieval.R')
+source('script/ratio_analysis.R')
+source('script/visualization.R')
