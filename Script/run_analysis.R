@@ -5,7 +5,7 @@ source('script/setup.R')
 
 # Input: company ticker and competitors
 company_ticker <- 'PHM'
-competitors_tickers <- c('MSFT', 'GOOGL')
+competitors_tickers <- c('NVR', 'TOL', 'DHI', 'LEN')
 indexes = c('^SP500TR','JPYUSD','BTCUSD','GCUSD')
 
 
