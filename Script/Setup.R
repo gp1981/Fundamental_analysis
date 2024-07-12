@@ -2,7 +2,8 @@
 
 packages <- c("httr","jsonlite","tidyverse", "openxlsx", "lubridate","tidyquant",
               "ggthemes","ggplot2","openxlsx","dplyr","zoo","ggpubr","foreach", 
-              "progress", "fmpcloudr", "ggplot2")
+              "progress", "fmpcloudr", "ggplot2", "kableExtra", "openxlsx", "knitr", 
+              "zoo")
 
 for (package in packages) {
   if (!(package %in% installed.packages())) {
@@ -38,8 +39,8 @@ historical_dates <- data.frame(
   date_1M = (today_date - months(1)),
   date_1W = (today_date - weeks(1))
 )
-
-# Files to source ----
+# 
+# # Files to source ----
 source('script/data_retrieval.R')
 source('script/ratio_analysis.R')
 source('script/visualization.R')

@@ -2,20 +2,14 @@ library(dplyr)
 library(ggplot2)
 library(tidyr)
 
-ratio_analysis_chart <- function(financial_data){
+ratio_analysis_chart <- function(financial_data_df){
   
   # Data processing ---------------------------------------------------------
   
-  # Extract data and symbols from financial_data
-  ratio_data <- financial_data$Ratio
-  
-  # Convert date to Date format if it's not already
-  ratio_data$date <- as.Date(ratio_data$date)
-  
   # Function to calculate IQR limits
-  calculate_iqr_limits <- function(df, ratio_column) {
-    Q1 <- quantile(df[[ratio_column]], 0.25, na.rm = TRUE)
-    Q3 <- quantile(df[[ratio_column]], 0.75, na.rm = TRUE)
+  calculate_iqr_limits <- function(df, financial_data_df_column) {
+    Q1 <- quantile(df[[financial_data_df_column]], 0.25, na.rm = TRUE)
+    Q3 <- quantile(df[[financial_data_df_column]], 0.75, na.rm = TRUE)
     IQR <- Q3 - Q1
     lower_limit <- Q1 - 1.5 * IQR
     upper_limit <- Q3 + 1.5 * IQR
@@ -23,21 +17,21 @@ ratio_analysis_chart <- function(financial_data){
   }
   
   # List of ratio columns to process
-  ratio_columns <- c("currentRatio", "quickRatio", "cashRatio", 
-                     "daysOfSalesOutstanding", "daysOfInventoryOutstanding", 
-                     "daysOfPayablesOutstanding", "operatingCycle", 
-                     "cashConversionCycle", "debtEquityRatio", 
-                     "totalDebtToCapitalization", "longTermDebtToCapitalization", 
-                     "shortTermCoverageRatios", "cashFlowToDebtRatio")
+  financial_data_df_columns <- c("currentRatio", "quickRatio", "cashRatio", 
+                                 "daysOfSalesOutstanding", "daysOfInventoryOutstanding", 
+                                 "daysOfPayablesOutstanding", "operatingCycle", 
+                                 "cashConversionCycle", "debtEquityRatio", 
+                                 "totalDebtToCapitalization", "longTermDebtToCapitalization", 
+                                 "shortTermCoverageRatios", "cashFlowToDebtRatio")
   
   # Reshape the data to long format
-  current_assets_ratio_data_long <- ratio_data %>%
+  current_assets_ratio_data_long <- financial_data_df %>%
     select(symbol, date, currentRatio, quickRatio, cashRatio) %>%
     pivot_longer(cols = c(currentRatio, quickRatio, cashRatio),
                  names_to = "ratio_type", 
                  values_to = "value")
   
-  cash_conversion_ratio_data_long <- ratio_data %>%
+  cash_conversion_ratio_data_long <- financial_data_df %>%
     select(symbol, date, daysOfSalesOutstanding, daysOfInventoryOutstanding, 
            daysOfPayablesOutstanding, operatingCycle, cashConversionCycle) %>%
     pivot_longer(cols = c(daysOfSalesOutstanding, daysOfInventoryOutstanding, 
@@ -45,13 +39,13 @@ ratio_analysis_chart <- function(financial_data){
                  names_to = "ratio_type", 
                  values_to = "value")
   
-  debt_ratio_data_long <- ratio_data %>%
+  debt_ratio_data_long <- financial_data_df %>%
     select(symbol, date, debtEquityRatio, totalDebtToCapitalization, longTermDebtToCapitalization) %>%
     pivot_longer(cols = c(debtEquityRatio, totalDebtToCapitalization, longTermDebtToCapitalization),
                  names_to = "ratio_type", 
                  values_to = "value")
   
-  debt_coverage_data_long <- ratio_data %>%
+  debt_coverage_data_long <- financial_data_df %>%
     select(symbol, date, shortTermCoverageRatios, cashFlowToDebtRatio) %>%
     pivot_longer(cols = c(shortTermCoverageRatios, cashFlowToDebtRatio),
                  names_to = "ratio_type", 
@@ -199,8 +193,8 @@ ratio_analysis_chart <- function(financial_data){
          color = "Ratio Type") +
     scale_color_manual(values = c("shortTermCoverageRatios" = "#0072B2", 
                                   "cashFlowToDebtRatio" = "#E69F00"),
-      labels = c("shortTermCoverageRatios" = "Short Term Coverage Ratio (Operating Cash Flow / Short Term Debt)",
-                 "cashFlowToDebtRatio" =  "Cash Flow to Debt Ratio (Operating Cash Flow / Total Debt)")) + 
+                       labels = c("shortTermCoverageRatios" = "Short Term Coverage Ratio (Operating Cash Flow / Short Term Debt)",
+                                  "cashFlowToDebtRatio" =  "Cash Flow to Debt Ratio (Operating Cash Flow / Total Debt)")) + 
     scale_y_continuous(limits = c(min(debt_coverage_iqr_limits$ymin, na.rm = TRUE) * 0.3, 
                                   max(debt_coverage_iqr_limits$ymax, na.rm = TRUE) * 0.3)) +
     theme_minimal() +
@@ -217,10 +211,10 @@ ratio_analysis_chart <- function(financial_data){
     )
   
   plot_ratio_analysis <- list(
-       current_assets_plot = current_assets_plot, 
-       cash_conversion_plot = cash_conversion_plot, 
-       debt_ratios_plot = debt_ratios_plot, 
-       debt_coverage_plot = debt_coverage_plot)
+    current_assets_plot = current_assets_plot, 
+    cash_conversion_plot = cash_conversion_plot, 
+    debt_ratios_plot = debt_ratios_plot, 
+    debt_coverage_plot = debt_coverage_plot)
   
   return(plot_ratio_analysis)
 }
