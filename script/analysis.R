@@ -1,6 +1,4 @@
-library(dplyr)
-library(ggplot2)
-library(tidyr)
+
 
 ratio_analysis_chart <- function(financial_data_df){
   
@@ -217,4 +215,53 @@ ratio_analysis_chart <- function(financial_data_df){
     debt_coverage_plot = debt_coverage_plot)
   
   return(plot_ratio_analysis)
+}
+
+total_shareholders_value <- function(financial_data_df){
+  # Assuming financial_data_df is your input data frame
+  # Historical Total Shareholder Equity value ------------------------------------------------------------
+  
+  # Check for non-zero values in dividends paid, stock issued, and repurchased
+  has_dividends_paid <- any(financial_data_df$dividendsPaid != 0, na.rm = TRUE)
+  has_stock_issued <- any(financial_data_df$commonStockIssued != 0, na.rm = TRUE)
+  has_stock_repurchased <- any(financial_data_df$commonStockRepurchased != 0, na.rm = TRUE)
+  
+  # Print messages based on the presence of non-zero values
+  if (has_dividends_paid) {
+    print("There are dividends paid.")
+  } else {
+    print("No dividends paid.")
+  }
+  
+  if (has_stock_issued) {
+    print("There are common stock issued.")
+  } else {
+    print("No common stock issued.")
+  }
+  
+  if (has_stock_repurchased) {
+    print("There are common stock repurchased.")
+  } else {
+    print("No common stock repurchased.")
+  }
+  
+  # Reverse order and compute cumulative sums
+  financial_data_df1 <- financial_data_df %>%
+    arrange(desc(row_number())) %>%  # Reverse order
+    mutate(
+      rev_dividendsPaid = cumsum(replace_na(dividendsPaid, 0)),  # Handle NA values
+      rev_commonStockIssued = cumsum(replace_na(commonStockIssued, 0)),  # Handle NA values
+      rev_commonStockRepurchased = cumsum(replace_na(commonStockRepurchased, 0))  # Handle NA values
+    ) %>%
+    arrange(row_number()) %>%  # Restore original order
+    mutate(
+      Historical_Equity_Value = (totalStockholdersEquity + 
+                                   rev_dividendsPaid + rev_commonStockIssued - rev_commonStockRepurchased) / numberOfShares
+    ) %>%
+    select(-rev_dividendsPaid, -rev_commonStockIssued, -rev_commonStockRepurchased) %>%  # Remove temporary columns
+    select(1:8, Historical_Equity_Value, everything())
+  
+  # View the resulting data frame
+  print(financial_data_df1)
+  
 }

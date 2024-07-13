@@ -5,7 +5,8 @@ source('script/setup.R')
 
 # Input: company ticker and competitors
 company_ticker <- 'PHM'
-competitors_tickers <- c('NVR', 'TOL', 'DHI', 'LEN')
+competitors_tickers <- c('ABB', 'EMR', 'HON', 'SND.DE')
+# competitors_tickers <- c('ABB', 'EMR', 'HON', 'SND.DE')
 indexes = c('^SP500TR','JPYUSD','BTCUSD','GCUSD')
 
 
@@ -28,6 +29,8 @@ ratio_analysis_plot$debt_ratios_plot
 ratio_analysis_plot$debt_coverage_plot
 
 # Historical Total Shareholder Equity value ------------------------------------------------------------
+
+export_excel_data(financial_data_df)
 
 # Reverse order and compute cumulative sums
 financial_data_df1 <- financial_data_df %>%

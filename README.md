@@ -4,7 +4,7 @@ This repository contains R code to perform fundamental analysis for value invest
 
 ## Features
 
-- **Ratio Analysis**: Analyze key financial ratios of a company.
+- **Analysis**: Analyze key financials of a company.
 - **Visualization**: Chart the cash ratio to visualize cash usage and sources.
 - **Benchmarking**: Compare a company’s financial metrics with selected competitors.
 
@@ -31,7 +31,7 @@ This repository contains R code to perform fundamental analysis for value invest
 
 1. **Run the Analysis**:
     ```R
-    source('scripts/run_analysis.R')
+    source('scripts/main.R')
     ```
 
 2. **Select the Company and Competitors**:
